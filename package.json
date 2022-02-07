@@ -3,9 +3,10 @@
   "private": true,
   "scripts": {
     "commit": "cz",
-    "dev": "next dev",
+    "server": "next dev",
+    "s": "yarn run server",
     "build": "next build",
-    "start": "next start",
+    "prod-server": "next start",
     "lint": "next lint"
   },
   "dependencies": {

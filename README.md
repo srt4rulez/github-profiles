@@ -7,9 +7,9 @@ Search app that uses gitHub's graphql API to retrieve user information
 First, run the development server:
 
 ```bash
-npm run dev
+npm run server
 # or
-yarn dev
+yarn server
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
