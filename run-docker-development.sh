@@ -28,9 +28,6 @@ args=(
 
     # Username or UID (format: <name|uid>[:<group|gid>])
     --user node
-
-    # Set environment variables
-    --env NODE_ENV=development
 )
 
 sudo docker run "${args[@]}" "$docker_image" /bin/bash
