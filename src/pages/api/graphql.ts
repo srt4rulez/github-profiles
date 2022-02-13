@@ -3,6 +3,10 @@ import type { AxiosError, AxiosResponse } from 'axios';
 import axios from 'axios';
 import process from 'node:process';
 
+/**
+ * This API endpoint just serves as a middleman between our nextjs app and github's
+ * graphql endpoint to hide the github personal access token.
+ */
 const handler = (
     req: NextApiRequest,
     res: NextApiResponse
