@@ -8,6 +8,7 @@ import {
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from 'src/theme';
 import '@fontsource/rubik/400.css';
+import '@fontsource/rubik/700.css';
 
 const client = new ApolloClient({
     uri: typeof window !== 'undefined' ? `${window.location.origin}/api/graphql` : undefined,
