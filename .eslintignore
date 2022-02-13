@@ -1,1 +1,4 @@
 .next/
+.eslintrc.js
+next.config.js
+release.config.js
