@@ -46,7 +46,6 @@ jobs:
                     VALIDATE_GITHUB_ACTIONS: true
                     VALIDATE_GITLEAKS: true
                     VALIDATE_HTML: true
-                    VALIDATE_JSCPD: true
                     VALIDATE_YAML: true
                     DEFAULT_BRANCH: main
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

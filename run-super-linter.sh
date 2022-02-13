@@ -22,7 +22,6 @@ args=(
     --env VALIDATE_GITHUB_ACTIONS=true
     --env VALIDATE_GITLEAKS=true
     --env VALIDATE_HTML=true
-    --env VALIDATE_JSCPD=true
     --env VALIDATE_YAML=true
 )
 

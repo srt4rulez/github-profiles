@@ -1,8 +1,34 @@
-import 'src/styles/globals.css';
 import type { AppProps } from 'next/app';
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+    gql,
+} from '@apollo/client';
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element | null {
-    return <Component {...pageProps} />;
-}
+const client = new ApolloClient({
+    uri: typeof window !== 'undefined' ? `${window.location.origin}/api/graphql` : undefined,
+    cache: new InMemoryCache(),
+});
 
-export default MyApp;
+const App = (props: AppProps): JSX.Element | null => {
+
+    const Component = props.Component;
+
+    return (
+
+        <ApolloProvider
+            client={client}
+        >
+
+            <Component
+                {...props.pageProps}
+            />
+
+        </ApolloProvider>
+
+    );
+
+};
+
+export default App;
