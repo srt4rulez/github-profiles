@@ -1,11 +1,13 @@
 # github-profiles
 
-Search app that uses gitHub's graphql API to retrieve user information
+Search app that uses github's graphql API to retrieve user information.
 
 ## Getting Started
 
-First, generate a github personal access token with `user` scope. 
-Create a [.env.local](./.env.local) file in the project with the token:
+First, generate a [github personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `user` scope.
+
+
+Next, create a [.env.local](./.env.local) file in the project with the token:
 
 ```dotenv
 GITHUB_GRAPHQL_API_TOKEN=<token>
