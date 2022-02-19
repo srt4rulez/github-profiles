@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import React from 'react';
 import {
     Box,
     Container,
@@ -6,7 +6,7 @@ import {
     Text,
 } from '@chakra-ui/react';
 
-const IndexPage: NextPage = () => {
+const App = (): JSX.Element | null => {
 
     return (
 
@@ -47,6 +47,7 @@ const IndexPage: NextPage = () => {
         </Container>
 
     );
+
 };
 
-export default IndexPage;
+export default App;

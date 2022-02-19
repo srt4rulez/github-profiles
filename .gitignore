@@ -1,3 +1,5 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
 # Logs
 logs
 *.log
@@ -40,6 +42,8 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+/.pnp
+.pnp.js
 
 # TypeScript v1 declaration files
 typings/
@@ -103,8 +107,18 @@ dist
 # TernJS port file
 .tern-port
 
+# Jetbrains editors
 .idea/
 
-.env.*
-
+# local Grpahql schema
 schema.graphql
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
