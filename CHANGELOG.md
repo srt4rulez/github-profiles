@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/srt4rulez/github-profiles/compare/v1.0.0...v1.1.0) (2022-02-19)
+
+
+### Features
+
+* add header ([254fede](https://github.com/srt4rulez/github-profiles/commit/254fede6f5b1bc158e7d0a3c60a4e16f57d1c200))
+
 ## 1.0.0 (2022-02-13)
 
 
