@@ -1,0 +1,13 @@
+query SearchUser($query: String!) {
+    search(query: $query, type: USER, first: 5) {
+        nodes {
+            ... on User {
+                id
+                login
+                name
+                isViewer
+                avatarUrl
+            }
+        }
+    }
+}
