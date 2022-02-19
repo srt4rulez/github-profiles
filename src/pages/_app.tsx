@@ -5,6 +5,10 @@ import {
     ApolloProvider,
     gql,
 } from '@apollo/client';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from 'src/theme';
+import '@fontsource/rubik/400.css';
+import '@fontsource/rubik/700.css';
 
 const client = new ApolloClient({
     uri: typeof window !== 'undefined' ? `${window.location.origin}/api/graphql` : undefined,
@@ -21,9 +25,15 @@ const App = (props: AppProps): JSX.Element | null => {
             client={client}
         >
 
-            <Component
-                {...props.pageProps}
-            />
+            <ChakraProvider
+                theme={theme}
+            >
+
+                <Component
+                    {...props.pageProps}
+                />
+
+            </ChakraProvider>
 
         </ApolloProvider>
 

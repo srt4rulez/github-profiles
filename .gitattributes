@@ -187,8 +187,6 @@ TODO              text
 .gitattributes    text
 .gitconfig        text
 .htaccess         text
-*.lock            text -diff
-package-lock.json text -diff
 *.toml            text
 *.yaml            text
 *.yml             text
@@ -279,6 +277,4 @@ Procfile          text
 
 # Ignore files (like .npmignore or .gitignore)
 *.*ignore         text
-
-yarn.lock         text
 

@@ -1,0 +1,15 @@
+{
+    "name": "Github Profiles GraphQL Schema",
+    "schemaPath": "schema.graphql",
+    "extensions": {
+        "endpoints": {
+            "Next.js GraphQL Endpoint": {
+                "url": "http://localhost:3000/api/graphql",
+                "headers": {
+                    "user-agent": "JS GraphQL"
+                },
+                "introspect": true
+            }
+        }
+    }
+}
