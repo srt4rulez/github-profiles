@@ -7,6 +7,7 @@ import App from 'src/App';
 //     ApolloProvider,
 // } from '@apollo/client';
 import { ChakraProvider } from '@chakra-ui/react';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from 'src/theme';
 import '@fontsource/rubik/400.css';
 import '@fontsource/rubik/700.css';
@@ -22,13 +23,19 @@ ReactDOM.render(
         {/*     client={client} */}
         {/* > */}
 
-        <ChakraProvider
+        <ThemeProvider
             theme={theme}
         >
 
-            <App />
+            <ChakraProvider
+                theme={theme}
+            >
 
-        </ChakraProvider>
+                <App />
+
+            </ChakraProvider>
+
+        </ThemeProvider>
 
         {/* </ApolloProvider> */}
     </React.StrictMode>,
