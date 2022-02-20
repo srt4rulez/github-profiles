@@ -9,7 +9,15 @@ const chakraTheme = extendTheme({
     },
 });
 
-const muiTheme = createTheme();
+const muiTheme = createTheme({
+    components: {
+        MuiButtonBase: {
+            defaultProps: {
+                disableRipple: true,
+            },
+        },
+    },
+});
 
 const theme = deepmerge(chakraTheme, muiTheme);
 
