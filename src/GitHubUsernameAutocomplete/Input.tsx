@@ -44,7 +44,7 @@ const Input = (props: InputProps): JSX.Element => {
                     id={props.id}
                     {...props.inputProps}
                     size="lg"
-                    paddingRight="75px"
+                    paddingRight="100px"
                     placeholder="Search by Username"
                 />
 
@@ -56,6 +56,9 @@ const Input = (props: InputProps): JSX.Element => {
                         <Spinner
                             position="absolute"
                             right="60px"
+                            color="purple.500"
+                            size="sm"
+                            title="Loading"
                         />
                     )}
                     {props.InputProps.endAdornment}
