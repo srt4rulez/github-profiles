@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     useDisclosure,
 } from '@chakra-ui/react';
@@ -61,8 +61,19 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
 
     const client = useApolloClient();
 
+    /**
+     * Create a flag for fetching users. This can be set to false to prevent a debounced result
+     * from returning when we want to stop debouncing.
+     */
+    const shouldSearchRef = useRef(false);
+
     const searchUsers = useConstant(() => {
         return async(inputText: string, setLoading = false) => {
+            if (!shouldSearchRef.current) {
+                // this is basically like cancelling the debounce.
+                return [];
+            }
+
             setIsLoading(setLoading);
 
             const results = await client
@@ -89,14 +100,18 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
     const handleInputChange = async(event: React.SyntheticEvent, inputValue: string, reason: AutocompleteInputChangeReason): Promise<void> => {
         setInputValue(inputValue);
 
-        console.log('reason', reason);
+        shouldSearchRef.current = true;
 
         if (inputValue.length === 0) {
+            shouldSearchRef.current = false;
+
             setOptions([]);
+
             return;
         }
 
-        if (reason === 'reset') {
+        if (reason === 'reset') { // aka selecting an option
+            // Don't use the debounce here, since it's not when the user types.
             const users = await searchUsers(inputValue, false);
 
             setOptions(users);
@@ -104,7 +119,6 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
             return;
         }
 
-        // TODO: Look into cancel debounce?
         const users = await debouncedSearchUsers(inputValue, true);
 
         setOptions(users);
