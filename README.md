@@ -38,6 +38,8 @@ yarn netlify login
 yarn netlify link
 
 # Start up the netlify dev server for the serverless functions + react-create-app (runs yarn start)
+yarn s
+# or
 yarn netlify dev
 ```
 
@@ -57,8 +59,6 @@ yarn install
 
 # Start the create-react-app development server
 yarn start
-# or
-yarn s
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
