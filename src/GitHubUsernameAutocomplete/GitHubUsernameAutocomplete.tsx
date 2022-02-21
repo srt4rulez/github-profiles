@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import {
+    Box,
     useDisclosure,
 } from '@chakra-ui/react';
 import type { AutocompleteInputChangeReason } from '@mui/material';
@@ -160,15 +161,19 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
             onClose={onClose}
             loading={isLoading}
             clearIcon={(
-                <FontAwesomeIcon
+                <Box
+                    as={FontAwesomeIcon}
                     icon={faXmark}
                     size="sm"
+                    color="gray.400"
                 />
             )}
             popupIcon={(
-                <FontAwesomeIcon
+                <Box
+                    as={FontAwesomeIcon}
                     icon={faChevronDown}
                     size="sm"
+                    color="gray.400"
                 />
             )}
             getOptionLabel={getOptionLabel}

@@ -5,7 +5,8 @@
     "scripts": {
         "commit": "cz",
         "start": "react-scripts start",
-        "s": "yarn run start",
+        "server": "yarn netlify dev",
+        "s": "yarn run server",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
