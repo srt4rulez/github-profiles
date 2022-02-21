@@ -1,3 +1,17 @@
+## [1.2.0](https://github.com/srt4rulez/github-profiles/compare/v1.1.0...v1.2.0) (2022-02-21)
+
+
+### Features
+
+* add graphql api endpoint with netlfiy ([13d8b87](https://github.com/srt4rulez/github-profiles/commit/13d8b87c9e4bcc571f8f83d4445353e9979befac))
+* **graphql:** add apollo client back to index with new netlify function ([67060a4](https://github.com/srt4rulez/github-profiles/commit/67060a4e2b14ef9085d4c12893cc24b5080ad1b9))
+* implement loading and debounced user search ([9989676](https://github.com/srt4rulez/github-profiles/commit/9989676450ff776dfcd53242c7a689ab363982ba))
+
+
+### Bug Fixes
+
+* calling api with last character after typing and removing all letters ([fcc61ca](https://github.com/srt4rulez/github-profiles/commit/fcc61ca7ef7c5007d3f004193ff6d5520a3a54f2))
+
 ## [1.1.0](https://github.com/srt4rulez/github-profiles/compare/v1.0.0...v1.1.0) (2022-02-19)
 
 
