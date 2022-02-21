@@ -6,14 +6,16 @@ import {
 } from '@chakra-ui/react';
 import type { OptionInterface } from 'src/types';
 
-const Option = (optionProps: React.HTMLAttributes<HTMLLIElement>, option: OptionInterface): JSX.Element => {
+export type OptionProps = React.HTMLAttributes<HTMLLIElement>
+
+const Option = (props: OptionProps, option: OptionInterface): JSX.Element => {
 
     return (
 
         // @ts-expect-error: chakra and mui html types are out of sync
         <Box
             as="li"
-            {...optionProps}
+            {...props}
         >
 
             <Avatar

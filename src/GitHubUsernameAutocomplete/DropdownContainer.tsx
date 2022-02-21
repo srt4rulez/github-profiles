@@ -1,7 +1,9 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 
-const DropdownContainer = (paperProps: React.HTMLAttributes<HTMLElement>): JSX.Element => {
+export type DropdownContainerProps = React.HTMLAttributes<HTMLElement>
+
+const DropdownContainer = (props: DropdownContainerProps): JSX.Element => {
 
     return (
 
@@ -14,7 +16,7 @@ const DropdownContainer = (paperProps: React.HTMLAttributes<HTMLElement>): JSX.E
             borderColor="gray.200"
         >
 
-            {paperProps.children}
+            {props.children}
 
         </Box>
 
