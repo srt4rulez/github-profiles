@@ -14,15 +14,12 @@ import { gql, useApolloClient } from '@apollo/client';
 import DropdownContainer from 'src/GitHubUsernameAutocomplete/DropdownContainer';
 import Input from 'src/GitHubUsernameAutocomplete/Input';
 import Option from 'src/GitHubUsernameAutocomplete/Option';
-import type { OptionInterface } from 'src/types';
+import type {
+    OptionInterface,
+    SearchUserResult,
+} from 'src/types';
 import useConstant from 'use-constant';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
-
-interface SearchUserResult {
-    search: {
-        nodes: Array<OptionInterface>;
-    };
-}
 
 const SEARCH_USER = gql`
     query SearchUser($query: String!) {

@@ -5,3 +5,9 @@ export interface OptionInterface {
     isViewer: boolean;
     avatarUrl: string;
 }
+
+export interface SearchUserResult {
+    search: {
+        nodes: Array<OptionInterface>;
+    };
+}
