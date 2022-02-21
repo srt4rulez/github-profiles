@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
     useDisclosure,
 } from '@chakra-ui/react';
+import type { AutocompleteInputChangeReason } from '@mui/material';
 import { Autocomplete } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,6 +15,8 @@ import DropdownContainer from 'src/GitHubUsernameAutocomplete/DropdownContainer'
 import Input from 'src/GitHubUsernameAutocomplete/Input';
 import Option from 'src/GitHubUsernameAutocomplete/Option';
 import type { OptionInterface } from 'src/types';
+import useConstant from 'use-constant';
+import awesomeDebouncePromise from 'awesome-debounce-promise';
 
 interface SearchUserResult {
     search: {
@@ -46,6 +49,8 @@ const getOptionLabel = (option: OptionInterface): string => option.login;
 
 const GitHubUsernameAutocomplete = (): JSX.Element => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [inputValue, setInputValue] = useState('');
 
     const [value, setValue] = useState<OptionInterface | null>(null);
@@ -56,31 +61,53 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
 
     const client = useApolloClient();
 
-    const handleInputChange = (event: React.SyntheticEvent, value: string): void => {
-        setInputValue(value);
+    const searchUsers = useConstant(() => {
+        return async(inputText: string, setLoading = false) => {
+            setIsLoading(setLoading);
 
-        if (!value) {
+            const results = await client
+                .query<SearchUserResult>({
+                    query: SEARCH_USER,
+                    variables: {
+                        query: `type:user ${inputText}`,
+                    },
+                })
+            ;
+
+            setIsLoading(false);
+
+            if (results && ('data' in results) && ('search' in results.data)) {
+                return results.data.search.nodes;
+            }
+
+            return [];
+        };
+    });
+
+    const debouncedSearchUsers = useConstant(() => awesomeDebouncePromise(searchUsers, 500));
+
+    const handleInputChange = async(event: React.SyntheticEvent, inputValue: string, reason: AutocompleteInputChangeReason): Promise<void> => {
+        setInputValue(inputValue);
+
+        console.log('reason', reason);
+
+        if (inputValue.length === 0) {
+            setOptions([]);
             return;
         }
 
-        client
-            .query<SearchUserResult>({
-                query: SEARCH_USER,
-                variables: {
-                    query: `type:user ${value}`,
-                },
-            })
-            .then((result) => {
-                console.log('result', result);
+        if (reason === 'reset') {
+            const users = await searchUsers(inputValue, false);
 
-                if (result && ('data' in result) && ('search' in result.data)) {
-                    setOptions(result.data.search.nodes);
-                }
-            })
-            .catch((error) => {
-                console.log('error', error);
-            })
-        ;
+            setOptions(users);
+
+            return;
+        }
+
+        // TODO: Look into cancel debounce?
+        const users = await debouncedSearchUsers(inputValue, true);
+
+        setOptions(users);
     };
 
     const handleChange = (event: React.SyntheticEvent, newValue: OptionInterface | null): void => setValue(newValue);
@@ -106,6 +133,7 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
             open={isOpen}
             onOpen={onOpen}
             onClose={onClose}
+            loading={isLoading}
             clearIcon={(
                 <FontAwesomeIcon
                     icon={faXmark}
@@ -123,7 +151,14 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
             filterOptions={filterOptions}
             PaperComponent={DropdownContainer}
             renderOption={Option}
-            renderInput={Input}
+            renderInput={(params): JSX.Element => {
+                return (
+                    <Input
+                        {...params}
+                        isLoading={isLoading}
+                    />
+                );
+            }}
         />
 
     );

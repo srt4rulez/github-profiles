@@ -5,22 +5,27 @@ import {
     Input as ChakraInput,
     InputGroup,
     InputRightElement,
+    Spinner,
 } from '@chakra-ui/react';
 import type { AutocompleteRenderInputParams } from '@mui/material';
 
-const Input = (params: AutocompleteRenderInputParams): JSX.Element => {
+export interface InputProps extends AutocompleteRenderInputParams {
+    isLoading: boolean;
+}
+
+const Input = (props: InputProps): JSX.Element => {
 
     return (
 
         <FormControl
-            id={params.id}
+            id={props.id}
             label="Search By Username"
-            isDisabled={params.disabled}
-            ref={params.InputProps.ref}
+            isDisabled={props.disabled}
+            ref={props.InputProps.ref}
         >
 
             <FormLabel
-                {...params.InputLabelProps}
+                {...props.InputLabelProps}
             >
 
                 Search by Username
@@ -32,18 +37,24 @@ const Input = (params: AutocompleteRenderInputParams): JSX.Element => {
             >
 
                 <ChakraInput
-                    id={params.id}
-                    {...params.inputProps}
+                    id={props.id}
+                    {...props.inputProps}
                     size="lg"
                     paddingRight="75px"
                     placeholder="Search by Username"
                 />
 
                 <InputRightElement
-                    width="60px"
+                    width="100px"
                     right="4"
                 >
-                    {params.InputProps.endAdornment}
+                    {props.isLoading && (
+                        <Spinner
+                            position="absolute"
+                            right="60px"
+                        />
+                    )}
+                    {props.InputProps.endAdornment}
                 </InputRightElement>
 
             </InputGroup>
