@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/srt4rulez/github-profiles/compare/v1.2.0...v1.3.0) (2022-02-21)
+
+
+### Features
+
+* add error handling and error messages to GitHubUsernameAutocomplete ([a3f88e0](https://github.com/srt4rulez/github-profiles/commit/a3f88e0359d80df7a4d6e7d9de824905cd9c423a))
+
 ## [1.2.0](https://github.com/srt4rulez/github-profiles/compare/v1.1.0...v1.2.0) (2022-02-21)
 
 
