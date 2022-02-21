@@ -5,6 +5,7 @@ import {
     Heading,
     Text,
 } from '@chakra-ui/react';
+import GitHubUsernameAutocomplete from 'src/GitHubUsernameAutocomplete/GitHubUsernameAutocomplete';
 
 const App = (): JSX.Element | null => {
 
@@ -15,7 +16,7 @@ const App = (): JSX.Element | null => {
         >
 
             <Box
-                as="section"
+                as="header"
                 marginTop="32"
             >
 
@@ -41,6 +42,17 @@ const App = (): JSX.Element | null => {
                     Look up users on github to view their avatar, username, followers, repository count and top 4 repositories.
 
                 </Text>
+
+            </Box>
+
+            <Box
+                as="section"
+                maxWidth="400px"
+                marginX="auto"
+                marginTop="5"
+            >
+
+                <GitHubUsernameAutocomplete />
 
             </Box>
 

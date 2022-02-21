@@ -3,8 +3,8 @@
     "schemaPath": "schema.graphql",
     "extensions": {
         "endpoints": {
-            "Next.js GraphQL Endpoint": {
-                "url": "http://localhost:3000/api/graphql",
+            "GraphQL Endpoint": {
+                "url": "http://localhost:8888/.netlify/functions/graphql",
                 "headers": {
                     "user-agent": "JS GraphQL"
                 },
