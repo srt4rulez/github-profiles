@@ -2,6 +2,7 @@ import React from 'react';
 import {
     FormControl,
     FormLabel,
+    FormErrorMessage,
     Input as ChakraInput,
     InputGroup,
     InputRightElement,
@@ -11,6 +12,8 @@ import type { AutocompleteRenderInputParams } from '@mui/material';
 
 export interface InputProps extends AutocompleteRenderInputParams {
     isLoading: boolean;
+    isValid: boolean;
+    errorMessage?: string;
 }
 
 const Input = (props: InputProps): JSX.Element => {
@@ -22,6 +25,7 @@ const Input = (props: InputProps): JSX.Element => {
             label="Search By Username"
             isDisabled={props.disabled}
             ref={props.InputProps.ref}
+            isInvalid={!props.isValid}
         >
 
             <FormLabel
@@ -58,6 +62,10 @@ const Input = (props: InputProps): JSX.Element => {
                 </InputRightElement>
 
             </InputGroup>
+
+            <FormErrorMessage>
+                {props.errorMessage}
+            </FormErrorMessage>
 
         </FormControl>
 

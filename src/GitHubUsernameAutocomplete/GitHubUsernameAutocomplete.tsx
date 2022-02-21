@@ -46,6 +46,8 @@ const getOptionLabel = (option: OptionInterface): string => option.login;
 
 const GitHubUsernameAutocomplete = (): JSX.Element => {
 
+    const [hasError, setHasError] = useState(false);
+
     const [isLoading, setIsLoading] = useState(false);
 
     const [inputValue, setInputValue] = useState('');
@@ -71,24 +73,27 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
                 return [];
             }
 
+            setHasError(false);
             setIsLoading(setLoading);
 
-            const results = await client
-                .query<SearchUserResult>({
-                    query: SEARCH_USER,
-                    variables: {
-                        query: `type:user ${inputText}`,
-                    },
-                })
-            ;
+            try {
+                const results = await client
+                    .query<SearchUserResult>({
+                        query: SEARCH_USER,
+                        variables: {
+                            query: `type:user ${inputText}`,
+                        },
+                    })
+                ;
 
-            setIsLoading(false);
+                if (results && ('data' in results) && ('search' in results.data)) {
+                    return results.data.search.nodes;
+                }
 
-            if (results && ('data' in results) && ('search' in results.data)) {
-                return results.data.search.nodes;
+                return [];
+            } finally {
+                setIsLoading(false);
             }
-
-            return [];
         };
     });
 
@@ -108,17 +113,26 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
         }
 
         if (reason === 'reset') { // aka selecting an option
-            // Don't use the debounce here, since it's not when the user types.
-            const users = await searchUsers(inputValue, false);
+            try { // Don't use the debounce here, since it's not when the user types.
+                const users = await searchUsers(inputValue, false);
 
-            setOptions(users);
+                setOptions(users);
+            } catch (error) {
+                console.error(error);
+                setHasError(true);
+            }
 
             return;
         }
 
-        const users = await debouncedSearchUsers(inputValue, true);
+        try {
+            const users = await debouncedSearchUsers(inputValue, true);
 
-        setOptions(users);
+            setOptions(users);
+        } catch (error) {
+            console.error(error);
+            setHasError(true);
+        }
     };
 
     const handleChange = (event: React.SyntheticEvent, newValue: OptionInterface | null): void => setValue(newValue);
@@ -167,6 +181,8 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
                     <Input
                         {...params}
                         isLoading={isLoading}
+                        isValid={!hasError}
+                        errorMessage="An error occurred. Please refresh the page and try again."
                     />
                 );
             }}
