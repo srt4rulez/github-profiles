@@ -11,7 +11,7 @@ import {
     faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { css } from '@emotion/css';
-import { gql, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import DropdownContainer from 'src/GitHubUsernameAutocomplete/DropdownContainer';
 import Input from 'src/GitHubUsernameAutocomplete/Input';
 import Option from 'src/GitHubUsernameAutocomplete/Option';
@@ -21,22 +21,9 @@ import type {
 } from 'src/types';
 import useConstant from 'use-constant';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
+import { loader } from 'graphql.macro';
 
-const SEARCH_USER = gql`
-    query SearchUser($query: String!) {
-        search(query: $query, type: USER, first: 5) {
-            nodes {
-                ... on User {
-                    id
-                    login
-                    name
-                    isViewer
-                    avatarUrl
-                }
-            }
-        }
-    }
-`;
+const SEARCH_USER_QUERY = loader('./../../graphql/SearchUser.graphql');
 
 // Don't filter options, just return then as-is, since we're calling an API that filters them.
 const filterOptions = (options: Array<OptionInterface>): Array<OptionInterface> => options;
@@ -80,7 +67,7 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
             try {
                 const results = await client
                     .query<SearchUserResult>({
-                        query: SEARCH_USER,
+                        query: SEARCH_USER_QUERY,
                         variables: {
                             query: `type:user ${inputText}`,
                         },
