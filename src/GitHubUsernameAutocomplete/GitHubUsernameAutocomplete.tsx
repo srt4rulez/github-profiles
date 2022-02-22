@@ -23,7 +23,7 @@ import useConstant from 'use-constant';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { loader } from 'graphql.macro';
 
-const SEARCH_USER_QUERY = loader('./../../graphql/SearchUser.graphql');
+const SEARCH_USER_QUERY = loader('./../graphql/SearchUser.graphql');
 
 // Don't filter options, just return then as-is, since we're calling an API that filters them.
 const filterOptions = (options: Array<OptionInterface>): Array<OptionInterface> => options;
