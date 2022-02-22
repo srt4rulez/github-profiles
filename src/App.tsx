@@ -23,7 +23,7 @@ const App = (): JSX.Element | null => {
                 <Heading
                     as="h1"
                     size="2xl"
-                    color="gray.700"
+                    color="purple.800"
                     textAlign="center"
                     marginBottom="4"
                 >
@@ -39,7 +39,7 @@ const App = (): JSX.Element | null => {
                     maxWidth="500px"
                 >
 
-                    Look up users on github to view their avatar, username, followers, repository count and top 4 repositories.
+                    Look up users on GitHub to view their avatar, username, followers count, repository count, and top 4 repositories based on stars.
 
                 </Text>
 
