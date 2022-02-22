@@ -5,8 +5,7 @@ query SearchUser($query: String!) {
                 id
                 login
                 name
-                isViewer
-                avatarUrl
+                avatarUrl(size: 64)
             }
         }
     }
