@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import {
     Box,
     useDisclosure,
+    useConst,
 } from '@chakra-ui/react';
 import type { AutocompleteInputChangeReason } from '@mui/material';
 import { Autocomplete } from '@mui/material';
@@ -19,7 +20,6 @@ import type {
     OptionInterface,
     SearchUserResult,
 } from 'src/types';
-import useConstant from 'use-constant';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { loader } from 'graphql.macro';
 
@@ -54,7 +54,7 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
      */
     const shouldSearchRef = useRef(false);
 
-    const searchUsers = useConstant(() => {
+    const searchUsers = useConst(() => {
         return async(inputText: string, setLoading = false) => {
             if (!shouldSearchRef.current) {
                 // this is basically like cancelling the debounce.
@@ -85,7 +85,7 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
         };
     });
 
-    const debouncedSearchUsers = useConstant(() => awesomeDebouncePromise(searchUsers, 500));
+    const debouncedSearchUsers = useConst(() => awesomeDebouncePromise(searchUsers, 500));
 
     const handleInputChange = async(event: React.SyntheticEvent, inputValue: string, reason: AutocompleteInputChangeReason): Promise<void> => {
         setInputValue(inputValue);
