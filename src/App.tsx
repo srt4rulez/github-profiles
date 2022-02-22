@@ -39,7 +39,7 @@ const App = (): JSX.Element | null => {
                     maxWidth="500px"
                 >
 
-                    Look up users on github to view their avatar, username, followers count, repository count, top 4 repositories based on forks and stars.
+                    Look up users on GitHub to view their avatar, username, followers count, repository count, and top 4 repositories based on stars.
 
                 </Text>
 
