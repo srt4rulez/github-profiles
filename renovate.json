@@ -2,7 +2,7 @@
     "extends": [
         "config:base",
         ":enableVulnerabilityAlerts",
-        ":assignAndReview(srt4rulez)",
+        ":reviewer(srt4rulez)",
         ":enableVulnerabilityAlertsWithLabel(security)",
         ":label(dependencies)",
         ":semanticCommits",
