@@ -1,0 +1,34 @@
+query GetUserProfileDetails($login: String!) {
+    user(login: $login) {
+        id
+        login
+        name
+        bio
+        url
+        avatarUrl(size: 200)
+        createdAt
+        issues {
+            totalCount
+        }
+        followers {
+            totalCount
+        }
+        repositories(
+            first: 4,
+            orderBy: {
+                direction: DESC,
+                field: STARGAZERS
+            }
+        ) {
+            totalCount
+            nodes {
+                id
+                name
+                description
+                url
+                stargazerCount
+                updatedAt
+            }
+        }
+    }
+}
