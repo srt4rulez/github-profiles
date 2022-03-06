@@ -16,9 +16,11 @@ import type { OptionInterface } from './types';
 
 const App = (): JSX.Element | null => {
 
-    const [fetchUserProfileDetails, { loading, data }] = useLazyQuery<GetUserProfileDetailsQuery>(GetUserProfileDetailsDocument);
+    const [fetchUserProfileDetails, { loading: isLoading, data, previousData }] = useLazyQuery<GetUserProfileDetailsQuery>(GetUserProfileDetailsDocument);
 
-    const userProfileDetails = data;
+    const userProfileDetails = data || previousData;
+
+    const isReloading = isLoading && previousData;
 
     const [gitHubUser, setGitHubUser] = useState<OptionInterface | null>(null);
 
@@ -86,35 +88,46 @@ const App = (): JSX.Element | null => {
 
             </Box>
 
-            {loading && (
+            <Box
+                position="relative"
+            >
 
-                <Center>
+                {isLoading && (
 
-                    <Spinner
-                        size="xl"
-                        color="purple.500"
+                    <Center
+                        position={isReloading ? 'absolute' : 'relative'}
+                        width="100%"
+                        marginY="32"
+                    >
+
+                        <Spinner
+                            size="xl"
+                            color="gray.800"
+                        />
+
+                    </Center>
+
+                )}
+
+                {userProfileDetails && userProfileDetails.user && (
+
+                    <UserProfile
+                        login={userProfileDetails.user.login}
+                        name={userProfileDetails.user.name || ''}
+                        url={userProfileDetails.user.url || ''}
+                        bio={userProfileDetails.user.bio || ''}
+                        avatarUrl={userProfileDetails.user.avatarUrl || ''}
+                        createdAt={userProfileDetails.user.createdAt || ''}
+                        followersTotalCount={userProfileDetails.user.followers.totalCount}
+                        repositoriesTotalCount={userProfileDetails.user.repositories.totalCount}
+                        issuesTotalCount={userProfileDetails.user.issues.totalCount}
+                        repositories={userProfileDetails.user.repositories.nodes || []}
+                        topRepositories={userProfileDetails.user.topRepositories.nodes || []}
                     />
 
-                </Center>
+                )}
 
-            )}
-
-            {userProfileDetails && userProfileDetails.user && (
-
-                <UserProfile
-                    login={userProfileDetails.user.login}
-                    name={userProfileDetails.user.name || ''}
-                    url={userProfileDetails.user.url || ''}
-                    bio={userProfileDetails.user.bio || ''}
-                    avatarUrl={userProfileDetails.user.avatarUrl || ''}
-                    createdAt={userProfileDetails.user.createdAt || ''}
-                    followersTotalCount={userProfileDetails.user.followers.totalCount}
-                    repositoriesTotalCount={userProfileDetails.user.repositories.totalCount}
-                    issuesTotalCount={userProfileDetails.user.issues.totalCount}
-                    repositories={userProfileDetails.user.repositories.nodes || []}
-                />
-
-            )}
+            </Box>
 
         </Container>
 
