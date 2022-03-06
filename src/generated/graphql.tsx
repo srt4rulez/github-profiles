@@ -13295,6 +13295,8 @@ export type ProjectNextField = {
   __typename?: 'ProjectNextField';
   /** Identifies the date and time when the object was created. */
   createdAt: Scalars['DateTime'];
+  /** The field's type. */
+  dataType: ProjectNextFieldType;
   /** Identifies the primary key from the database. */
   databaseId?: Maybe<Scalars['Int']>;
   id: Scalars['ID'];
@@ -13329,6 +13331,34 @@ export type ProjectNextFieldEdge = {
   /** The item at the end of the edge. */
   node?: Maybe<ProjectNextField>;
 };
+
+/** The type of a project next field. */
+export enum ProjectNextFieldType {
+  /** Assignees */
+  Assignees = 'ASSIGNEES',
+  /** Date */
+  Date = 'DATE',
+  /** Iteration */
+  Iteration = 'ITERATION',
+  /** Labels */
+  Labels = 'LABELS',
+  /** Linked Pull Requests */
+  LinkedPullRequests = 'LINKED_PULL_REQUESTS',
+  /** Milestone */
+  Milestone = 'MILESTONE',
+  /** Number */
+  Number = 'NUMBER',
+  /** Repository */
+  Repository = 'REPOSITORY',
+  /** Reviewers */
+  Reviewers = 'REVIEWERS',
+  /** Single Select */
+  SingleSelect = 'SINGLE_SELECT',
+  /** Text */
+  Text = 'TEXT',
+  /** Title */
+  Title = 'TITLE'
+}
 
 /** An item within a new Project. */
 export type ProjectNextItem = Node & {
