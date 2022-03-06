@@ -2,8 +2,9 @@ import React, { useRef, useState } from 'react';
 import {
     Box,
     useDisclosure,
+    useConst,
 } from '@chakra-ui/react';
-import type { AutocompleteInputChangeReason } from '@mui/material';
+import type { AutocompleteInputChangeReason, AutocompleteProps } from '@mui/material';
 import { Autocomplete } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -19,28 +20,27 @@ import type {
     OptionInterface,
     SearchUserResult,
 } from 'src/types';
-import useConstant from 'use-constant';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { loader } from 'graphql.macro';
 
 const SEARCH_USER_QUERY = loader('./../graphql/SearchUser.graphql');
 
-// Don't filter options, just return then as-is, since we're calling an API that filters them.
+// Don't filter options, just return them as-is, since we're calling an API that filters them.
 const filterOptions = (options: Array<OptionInterface>): Array<OptionInterface> => options;
 
 const isOptionEqualToValue = (option: OptionInterface, value: OptionInterface): boolean => option.id === value.id;
 
 const getOptionLabel = (option: OptionInterface): string => option.login;
 
-const GitHubUsernameAutocomplete = (): JSX.Element => {
+export type GitHubUsernameAutocompleteProps = Partial<AutocompleteProps<OptionInterface, false, false, false>>
+
+const GitHubUsernameAutocomplete = (props: GitHubUsernameAutocompleteProps): JSX.Element => {
 
     const [hasError, setHasError] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
 
     const [inputValue, setInputValue] = useState('');
-
-    const [value, setValue] = useState<OptionInterface | null>(null);
 
     const [options, setOptions] = useState<Array<OptionInterface>>([]);
 
@@ -54,7 +54,7 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
      */
     const shouldSearchRef = useRef(false);
 
-    const searchUsers = useConstant(() => {
+    const searchUsers = useConst(() => {
         return async(inputText: string, setLoading = false) => {
             if (!shouldSearchRef.current) {
                 // this is basically like cancelling the debounce.
@@ -85,7 +85,7 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
         };
     });
 
-    const debouncedSearchUsers = useConstant(() => awesomeDebouncePromise(searchUsers, 500));
+    const debouncedSearchUsers = useConst(() => awesomeDebouncePromise(searchUsers, 500));
 
     const handleInputChange = async(event: React.SyntheticEvent, inputValue: string, reason: AutocompleteInputChangeReason): Promise<void> => {
         setInputValue(inputValue);
@@ -123,16 +123,12 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
         }
     };
 
-    const handleChange = (event: React.SyntheticEvent, newValue: OptionInterface | null): void => setValue(newValue);
-
     return (
 
-        <Autocomplete<OptionInterface>
+        <Autocomplete<OptionInterface, false, false, false>
             id="github-username"
             onInputChange={handleInputChange}
             inputValue={inputValue}
-            onChange={handleChange}
-            value={value}
             classes={{
                 clearIndicator: css({
                     marginRight: '5px !important',
@@ -178,6 +174,7 @@ const GitHubUsernameAutocomplete = (): JSX.Element => {
                     />
                 );
             }}
+            {...props}
         />
 
     );

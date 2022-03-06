@@ -10,3 +10,12 @@ export interface SearchUserResult {
         nodes: Array<OptionInterface>;
     };
 }
+
+export interface Repository {
+    id: string;
+    name: string;
+    description: string;
+    url: string;
+    stargazerCount: number;
+    updatedAt: string;
+}
