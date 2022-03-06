@@ -1,3 +1,10 @@
+## [1.5.0](https://github.com/srt4rulez/github-profiles/compare/v1.4.0...v1.5.0) (2022-03-06)
+
+
+### Features
+
+* add topRepositories ([9e3b626](https://github.com/srt4rulez/github-profiles/commit/9e3b6266a9bcc3d700a27d2e0419b72ec28af6d4))
+
 ## [1.4.0](https://github.com/srt4rulez/github-profiles/compare/v1.3.0...v1.4.0) (2022-03-06)
 
 
