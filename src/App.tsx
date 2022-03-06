@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Container,
     Heading,
     Text,
+    Spinner,
+    Center,
 } from '@chakra-ui/react';
 import GitHubUsernameAutocomplete from 'src/GitHubUsernameAutocomplete/GitHubUsernameAutocomplete';
+import { useLazyQuery } from '@apollo/client';
+import UserProfile from 'src/UserProfile';
+import type { GetUserProfileDetailsQuery } from 'src/generated/graphql';
+import { GetUserProfileDetailsDocument } from 'src/generated/graphql';
+import type { OptionInterface } from './types';
 
 const App = (): JSX.Element | null => {
+
+    const [fetchUserProfileDetails, { loading: isLoading, data, previousData }] = useLazyQuery<GetUserProfileDetailsQuery>(GetUserProfileDetailsDocument);
+
+    const userProfileDetails = data || previousData;
+
+    const isReloading = isLoading && previousData;
+
+    const [gitHubUser, setGitHubUser] = useState<OptionInterface | null>(null);
 
     return (
 
@@ -17,13 +32,16 @@ const App = (): JSX.Element | null => {
 
             <Box
                 as="header"
-                marginTop="32"
+                marginTop={{
+                    md: 32,
+                    base: 10,
+                }}
             >
 
                 <Heading
                     as="h1"
                     size="2xl"
-                    color="purple.800"
+                    color="gray.700"
                     textAlign="center"
                     marginBottom="4"
                 >
@@ -39,7 +57,7 @@ const App = (): JSX.Element | null => {
                     maxWidth="500px"
                 >
 
-                    Look up users on GitHub to view their avatar, username, followers count, repository count, and top 4 repositories based on stars.
+                    Look up users on GitHub to view their profile information.
 
                 </Text>
 
@@ -50,9 +68,64 @@ const App = (): JSX.Element | null => {
                 maxWidth="400px"
                 marginX="auto"
                 marginTop="5"
+                marginBottom="5"
             >
 
-                <GitHubUsernameAutocomplete />
+                <GitHubUsernameAutocomplete
+                    value={gitHubUser}
+                    onChange={async(event: React.SyntheticEvent, newValue): Promise<void> => {
+                        setGitHubUser(newValue);
+
+                        if (newValue && newValue.login) {
+                            await fetchUserProfileDetails({
+                                variables: {
+                                    login: newValue.login
+                                },
+                            });
+                        }
+                    }}
+                />
+
+            </Box>
+
+            <Box
+                position="relative"
+            >
+
+                {isLoading && (
+
+                    <Center
+                        position={isReloading ? 'absolute' : 'relative'}
+                        width="100%"
+                        marginY="32"
+                    >
+
+                        <Spinner
+                            size="xl"
+                            color="gray.800"
+                        />
+
+                    </Center>
+
+                )}
+
+                {userProfileDetails && userProfileDetails.user && (
+
+                    <UserProfile
+                        login={userProfileDetails.user.login}
+                        name={userProfileDetails.user.name || ''}
+                        url={userProfileDetails.user.url || ''}
+                        bio={userProfileDetails.user.bio || ''}
+                        avatarUrl={userProfileDetails.user.avatarUrl || ''}
+                        createdAt={userProfileDetails.user.createdAt || ''}
+                        followersTotalCount={userProfileDetails.user.followers.totalCount}
+                        repositoriesTotalCount={userProfileDetails.user.repositories.totalCount}
+                        issuesTotalCount={userProfileDetails.user.issues.totalCount}
+                        repositories={userProfileDetails.user.repositories.nodes || []}
+                        topRepositories={userProfileDetails.user.topRepositories.nodes || []}
+                    />
+
+                )}
 
             </Box>
 

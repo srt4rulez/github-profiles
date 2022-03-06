@@ -19,7 +19,7 @@ const Option = (props: OptionProps, option: OptionInterface): JSX.Element => {
         >
 
             <Avatar
-                name={option.name}
+                name={option.name || ''}
                 src={option.avatarUrl}
                 size="sm"
                 marginRight="3"

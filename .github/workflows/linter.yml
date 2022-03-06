@@ -10,7 +10,7 @@ jobs:
 
         steps:
             -
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
             -
                 uses: actions/setup-node@v3
                 with:
@@ -32,7 +32,7 @@ jobs:
         steps:
             -
                 name: Checkout Code
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
                 with:
                     # Full git history is needed to get a proper list of changed files within `super-linter`
                     fetch-depth: 0
@@ -47,5 +47,6 @@ jobs:
                     VALIDATE_GITLEAKS: true
                     VALIDATE_HTML: true
                     VALIDATE_YAML: true
+                    FILTER_REGEX_EXCLUDE: .*src/generated/.*
                     DEFAULT_BRANCH: main
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
