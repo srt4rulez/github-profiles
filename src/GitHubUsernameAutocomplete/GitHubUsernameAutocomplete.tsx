@@ -84,7 +84,7 @@ const GitHubUsernameAutocomplete = (props: GitHubUsernameAutocompleteProps): JSX
 
     const debouncedSearchUsers = useConst(() => awesomeDebouncePromise(searchUsers, 500));
 
-    const handleInputChange = async(event: React.SyntheticEvent, inputValue: string, reason: AutocompleteInputChangeReason): Promise<void> => {
+    const handleInputChange = (event: React.SyntheticEvent, inputValue: string, reason: AutocompleteInputChangeReason): void => {
         setInputValue(inputValue);
 
         shouldSearchRef.current = true;
@@ -97,27 +97,29 @@ const GitHubUsernameAutocomplete = (props: GitHubUsernameAutocompleteProps): JSX
             return;
         }
 
-        if (reason === 'reset') { // aka selecting an option
-            try { // Don't use the debounce here, since it's not when the user types.
-                const users = await searchUsers(inputValue, false);
+        void (async(): Promise<void> => {
+            if (reason === 'reset') { // aka selecting an option
+                try { // Don't use the debounce here, since it's not when the user types.
+                    const users = await searchUsers(inputValue, false);
+
+                    setOptions(users);
+                } catch (error) {
+                    console.error(error);
+                    setHasError(true);
+                }
+
+                return;
+            }
+
+            try {
+                const users = await debouncedSearchUsers(inputValue, true);
 
                 setOptions(users);
             } catch (error) {
                 console.error(error);
                 setHasError(true);
             }
-
-            return;
-        }
-
-        try {
-            const users = await debouncedSearchUsers(inputValue, true);
-
-            setOptions(users);
-        } catch (error) {
-            console.error(error);
-            setHasError(true);
-        }
+        })();
     };
 
     return (

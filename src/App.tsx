@@ -73,11 +73,11 @@ const App = (): JSX.Element | null => {
 
                 <GitHubUsernameAutocomplete
                     value={gitHubUser}
-                    onChange={async(event: React.SyntheticEvent, newValue): Promise<void> => {
+                    onChange={(event: React.SyntheticEvent, newValue): void => {
                         setGitHubUser(newValue);
 
                         if (newValue && newValue.login) {
-                            await fetchUserProfileDetails({
+                            void fetchUserProfileDetails({
                                 variables: {
                                     login: newValue.login
                                 },
