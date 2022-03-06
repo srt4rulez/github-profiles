@@ -23,6 +23,7 @@ args=(
     --env VALIDATE_GITLEAKS=true
     --env VALIDATE_HTML=true
     --env VALIDATE_YAML=true
+    --env FILTER_REGEX_EXCLUDE=.*src/generated/.*
 )
 
 sudo docker run "${args[@]}" "$docker_image" /bin/bash
