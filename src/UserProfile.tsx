@@ -3,6 +3,7 @@ import {
     Box,
     SimpleGrid,
     Divider,
+    Text,
 } from '@chakra-ui/react';
 import { parseISO } from 'date-fns';
 import ProfileHeading from 'src/ProfileHeading';
@@ -15,7 +16,7 @@ import {
     faCube,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import type { Repository } from 'src/types';
+import type { Repository } from 'src/generated/graphql';
 
 export interface UserProfileProps {
     login: string;
@@ -27,7 +28,8 @@ export interface UserProfileProps {
     followersTotalCount: number;
     repositoriesTotalCount: number;
     issuesTotalCount: number;
-    repositories: Array<Repository>;
+    repositories?: Array<Partial<Repository> | null>;
+    topRepositories?: Array<Partial<Repository> | null>;
 }
 
 const UserProfile = (props: UserProfileProps): JSX.Element => {
@@ -95,7 +97,62 @@ const UserProfile = (props: UserProfileProps): JSX.Element => {
                 marginBottom="10"
             >
 
-                {props.repositories.length > 0 && (
+                {props.repositories && props.repositories.length > 0 && (
+
+                    <React.Fragment>
+
+                        <Divider
+                            marginY="10"
+                        />
+
+                        <ProfileHeading>
+                            Owned Repositories
+                        </ProfileHeading>
+
+                        <Text
+                            marginBottom="5"
+                            color="gray.600"
+                        >
+                            A list of repositories that the user owns.
+                        </Text>
+
+                        <SimpleGrid
+                            columns={{
+                                md: 2,
+                                base: 1,
+                            }}
+                            spacing={5}
+                        >
+
+                            {props.repositories.map((repository) => {
+
+                                if (!repository) {
+                                    return null;
+                                }
+
+                                return (
+
+                                    <RepositoryBox
+                                        key={repository.id}
+                                        id={repository.id || ''}
+                                        name={repository.name || ''}
+                                        description={repository.description || ''}
+                                        url={repository.url || ''}
+                                        stargazerCount={repository.stargazerCount || 0}
+                                        updatedAt={repository.updatedAt || ''}
+                                    />
+
+                                );
+
+                            })}
+
+                        </SimpleGrid>
+
+                    </React.Fragment>
+
+                )}
+
+                {props.topRepositories && props.topRepositories.length > 0 && (
 
                     <React.Fragment>
 
@@ -107,6 +164,13 @@ const UserProfile = (props: UserProfileProps): JSX.Element => {
                             Top Repositories
                         </ProfileHeading>
 
+                        <Text
+                            marginBottom="5"
+                            color="gray.600"
+                        >
+                            Repositories the user has contributed to, ordered by contribution rank, plus repositories the user has created.
+                        </Text>
+
                         <SimpleGrid
                             columns={{
                                 md: 2,
@@ -115,18 +179,22 @@ const UserProfile = (props: UserProfileProps): JSX.Element => {
                             spacing={5}
                         >
 
-                            {props.repositories.map((repository: Repository) => {
+                            {props.topRepositories.map((repository) => {
+
+                                if (!repository) {
+                                    return null;
+                                }
 
                                 return (
 
                                     <RepositoryBox
                                         key={repository.id}
-                                        id={repository.id}
-                                        name={repository.name}
-                                        description={repository.description}
-                                        url={repository.url}
-                                        stargazerCount={repository.stargazerCount}
-                                        updatedAt={repository.updatedAt}
+                                        id={repository.id || ''}
+                                        name={repository.name || ''}
+                                        description={repository.description || ''}
+                                        url={repository.url || ''}
+                                        stargazerCount={repository.stargazerCount || 0}
+                                        updatedAt={repository.updatedAt || ''}
                                     />
 
                                 );
