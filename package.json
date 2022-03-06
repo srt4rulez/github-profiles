@@ -13,7 +13,8 @@
         "ts": "yarn tsc",
         "ts-watch": "yarn tsc --watch",
         "lint": "eslint --cache \"./**/*.{ts,tsx}\"",
-        "lint-fix": "eslint --cache --fix \"./**/*.{ts,tsx}\""
+        "lint-fix": "eslint --cache --fix \"./**/*.{ts,tsx}\"",
+        "codegen": "graphql-codegen --config codegen.yml"
     },
     "dependencies": {
         "@apollo/client": "^3.5.9",
@@ -25,6 +26,11 @@
         "@fortawesome/fontawesome-svg-core": "^1.3.0",
         "@fortawesome/free-solid-svg-icons": "^6.0.0",
         "@fortawesome/react-fontawesome": "^0.1.17",
+        "@graphql-codegen/cli": "^2.6.2",
+        "@graphql-codegen/introspection": "2.1.1",
+        "@graphql-codegen/typescript": "2.4.5",
+        "@graphql-codegen/typescript-operations": "2.3.2",
+        "@graphql-codegen/typescript-react-apollo": "3.2.8",
         "@mui/material": "^5.4.2",
         "@netlify/functions": "^1.0.0",
         "@semantic-release/changelog": "^6.0.1",
