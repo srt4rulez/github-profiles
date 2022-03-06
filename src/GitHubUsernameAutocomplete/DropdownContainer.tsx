@@ -14,6 +14,7 @@ const DropdownContainer = (props: DropdownContainerProps): JSX.Element => {
             rounded="md"
             borderWidth="1px"
             borderColor="gray.200"
+            backgroundColor="white"
         >
 
             {props.children}

@@ -15,7 +15,7 @@ import {
     faCube,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import type { Repository } from 'src/types';
+import type { Repository } from 'src/generated/graphql';
 
 export interface UserProfileProps {
     login: string;
@@ -27,7 +27,7 @@ export interface UserProfileProps {
     followersTotalCount: number;
     repositoriesTotalCount: number;
     issuesTotalCount: number;
-    repositories: Array<Repository>;
+    repositories?: Array<Partial<Repository> | null>;
 }
 
 const UserProfile = (props: UserProfileProps): JSX.Element => {
@@ -95,7 +95,7 @@ const UserProfile = (props: UserProfileProps): JSX.Element => {
                 marginBottom="10"
             >
 
-                {props.repositories.length > 0 && (
+                {props.repositories && props.repositories.length > 0 && (
 
                     <React.Fragment>
 
@@ -104,7 +104,7 @@ const UserProfile = (props: UserProfileProps): JSX.Element => {
                         />
 
                         <ProfileHeading>
-                            Top Repositories
+                            Owned Repositories
                         </ProfileHeading>
 
                         <SimpleGrid
@@ -115,18 +115,22 @@ const UserProfile = (props: UserProfileProps): JSX.Element => {
                             spacing={5}
                         >
 
-                            {props.repositories.map((repository: Repository) => {
+                            {props.repositories.map((repository) => {
+
+                                if (!repository) {
+                                    return null;
+                                }
 
                                 return (
 
                                     <RepositoryBox
                                         key={repository.id}
-                                        id={repository.id}
-                                        name={repository.name}
-                                        description={repository.description}
-                                        url={repository.url}
-                                        stargazerCount={repository.stargazerCount}
-                                        updatedAt={repository.updatedAt}
+                                        id={repository.id || ''}
+                                        name={repository.name || ''}
+                                        description={repository.description || ''}
+                                        url={repository.url || ''}
+                                        stargazerCount={repository.stargazerCount || 0}
+                                        updatedAt={repository.updatedAt || ''}
                                     />
 
                                 );

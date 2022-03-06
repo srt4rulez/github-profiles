@@ -8,54 +8,19 @@ import {
     Center,
 } from '@chakra-ui/react';
 import GitHubUsernameAutocomplete from 'src/GitHubUsernameAutocomplete/GitHubUsernameAutocomplete';
-import { loader } from 'graphql.macro';
-import type { OptionInterface, Repository } from 'src/types';
 import { useLazyQuery } from '@apollo/client';
 import UserProfile from 'src/UserProfile';
-
-const GET_USER_PROFILE_DETAILS_QUERY = loader('./graphql/GetUserProfileDetails.graphql');
-
-interface UserProfileDetails {
-    user: {
-        id: string;
-        login: string;
-        name: string;
-        bio: string;
-        url: string;
-        avatarUrl: string;
-        createdAt: string;
-        issues: {
-            totalCount: number;
-        };
-        followers: {
-            totalCount: number;
-        };
-        repositories: {
-            totalCount: number;
-            nodes: Array<Repository>;
-        };
-    };
-}
+import type { GetUserProfileDetailsQuery } from 'src/generated/graphql';
+import { GetUserProfileDetailsDocument } from 'src/generated/graphql';
+import type { OptionInterface } from './types';
 
 const App = (): JSX.Element | null => {
 
-    const [fetchUserProfileDetails, { loading, data }] = useLazyQuery<UserProfileDetails>(GET_USER_PROFILE_DETAILS_QUERY);
+    const [fetchUserProfileDetails, { loading, data }] = useLazyQuery<GetUserProfileDetailsQuery>(GetUserProfileDetailsDocument);
 
     const userProfileDetails = data;
 
     const [gitHubUser, setGitHubUser] = useState<OptionInterface | null>(null);
-
-    const handleChange = async(event: React.SyntheticEvent, newValue: OptionInterface | null): Promise<void> => {
-        setGitHubUser(newValue);
-
-        if (newValue && newValue.login) {
-            await fetchUserProfileDetails({
-                variables: {
-                    login: newValue.login
-                },
-            });
-        }
-    };
 
     return (
 
@@ -106,7 +71,17 @@ const App = (): JSX.Element | null => {
 
                 <GitHubUsernameAutocomplete
                     value={gitHubUser}
-                    onChange={handleChange}
+                    onChange={async(event: React.SyntheticEvent, newValue): Promise<void> => {
+                        setGitHubUser(newValue);
+
+                        if (newValue && newValue.login) {
+                            await fetchUserProfileDetails({
+                                variables: {
+                                    login: newValue.login
+                                },
+                            });
+                        }
+                    }}
                 />
 
             </Box>
@@ -124,19 +99,19 @@ const App = (): JSX.Element | null => {
 
             )}
 
-            {userProfileDetails && (
+            {userProfileDetails && userProfileDetails.user && (
 
                 <UserProfile
                     login={userProfileDetails.user.login}
-                    name={userProfileDetails.user.name}
-                    url={userProfileDetails.user.url}
-                    bio={userProfileDetails.user.bio}
-                    avatarUrl={userProfileDetails.user.avatarUrl}
-                    createdAt={userProfileDetails.user.createdAt}
+                    name={userProfileDetails.user.name || ''}
+                    url={userProfileDetails.user.url || ''}
+                    bio={userProfileDetails.user.bio || ''}
+                    avatarUrl={userProfileDetails.user.avatarUrl || ''}
+                    createdAt={userProfileDetails.user.createdAt || ''}
                     followersTotalCount={userProfileDetails.user.followers.totalCount}
                     repositoriesTotalCount={userProfileDetails.user.repositories.totalCount}
                     issuesTotalCount={userProfileDetails.user.issues.totalCount}
-                    repositories={userProfileDetails.user.repositories.nodes}
+                    repositories={userProfileDetails.user.repositories.nodes || []}
                 />
 
             )}

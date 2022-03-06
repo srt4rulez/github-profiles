@@ -16,21 +16,10 @@ import { useApolloClient } from '@apollo/client';
 import DropdownContainer from 'src/GitHubUsernameAutocomplete/DropdownContainer';
 import Input from 'src/GitHubUsernameAutocomplete/Input';
 import Option from 'src/GitHubUsernameAutocomplete/Option';
-import type {
-    OptionInterface,
-    SearchUserResult,
-} from 'src/types';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
-import { loader } from 'graphql.macro';
-
-const SEARCH_USER_QUERY = loader('./../graphql/SearchUser.graphql');
-
-// Don't filter options, just return them as-is, since we're calling an API that filters them.
-const filterOptions = (options: Array<OptionInterface>): Array<OptionInterface> => options;
-
-const isOptionEqualToValue = (option: OptionInterface, value: OptionInterface): boolean => option.id === value.id;
-
-const getOptionLabel = (option: OptionInterface): string => option.login;
+import type { SearchUserQuery } from 'src/generated/graphql';
+import { SearchUserDocument } from 'src/generated/graphql';
+import type { OptionInterface } from 'src/types';
 
 export type GitHubUsernameAutocompleteProps = Partial<AutocompleteProps<OptionInterface, false, false, false>>
 
@@ -66,8 +55,8 @@ const GitHubUsernameAutocomplete = (props: GitHubUsernameAutocompleteProps): JSX
 
             try {
                 const results = await client
-                    .query<SearchUserResult>({
-                        query: SEARCH_USER_QUERY,
+                    .query<SearchUserQuery>({
+                        query: SearchUserDocument,
                         variables: {
                             query: `type:user ${inputText}`,
                         },
@@ -75,7 +64,15 @@ const GitHubUsernameAutocomplete = (props: GitHubUsernameAutocompleteProps): JSX
                 ;
 
                 if (results && ('data' in results) && ('search' in results.data)) {
-                    return results.data.search.nodes;
+                    const nodes = (results.data.search.nodes || []);
+
+                    const users = nodes.filter((node) => {
+                        if (node && node.__typename == 'User') {
+                            return true;
+                        }
+                        return false;
+                    });
+                    return users as Array<OptionInterface>;
                 }
 
                 return [];
@@ -159,9 +156,10 @@ const GitHubUsernameAutocomplete = (props: GitHubUsernameAutocompleteProps): JSX
                     color="gray.400"
                 />
             )}
-            getOptionLabel={getOptionLabel}
-            isOptionEqualToValue={isOptionEqualToValue}
-            filterOptions={filterOptions}
+            getOptionLabel={(option): string => option.login ? option.login : ''}
+            isOptionEqualToValue={(option, value): boolean => option.id ? option.id === value.id : false}
+            // Don't filter options, just return them as-is, since we're calling an API that filters them.
+            filterOptions={(options): Array<OptionInterface> => options}
             PaperComponent={DropdownContainer}
             renderOption={Option}
             renderInput={(params): JSX.Element => {

@@ -1,21 +1,3 @@
-export interface OptionInterface {
-    id: string;
-    login: string;
-    name: string;
-    avatarUrl: string;
-}
+import type { User } from 'src/generated/graphql';
 
-export interface SearchUserResult {
-    search: {
-        nodes: Array<OptionInterface>;
-    };
-}
-
-export interface Repository {
-    id: string;
-    name: string;
-    description: string;
-    url: string;
-    stargazerCount: number;
-    updatedAt: string;
-}
+export type OptionInterface = Partial<User>;
