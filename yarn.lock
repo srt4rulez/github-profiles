@@ -1998,9 +1998,9 @@
     strip-json-comments "^3.1.1"
 
 "@fontsource/rubik@^4.5.3":
-  version "4.5.3"
-  resolved "https://registry.yarnpkg.com/@fontsource/rubik/-/rubik-4.5.3.tgz#acba0893c78a7ba5d6acaa4f40132a88259756c0"
-  integrity sha512-XeNLmjp3dQKilF6XYm9o0dcnsKIsFuomBZ8ZgFmFu/+RPQPYd2xpQVscLdiXwDaNBQtPFfmRk73coCBbDtCCfg==
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/@fontsource/rubik/-/rubik-4.5.4.tgz#3a2b4c842611abf16535b9d6cbf718289fd61536"
+  integrity sha512-rylaMgPDIzKKUwVpQ0kPprWlT97HIWkdddCs2NC7vWm+qQUIOzxhbqxf5QoY6SBlMmOHI9rrEWZ730vk74Lf+w==
 
 "@fortawesome/fontawesome-common-types@^0.3.0":
   version "0.3.0"
