@@ -1,3 +1,10 @@
+### [1.5.1](https://github.com/srt4rulez/github-profiles/compare/v1.5.0...v1.5.1) (2022-03-20)
+
+
+### Bug Fixes
+
+* **font-awesome:** update font-awesome packages to fix types issues with FA6 ([5973dab](https://github.com/srt4rulez/github-profiles/commit/5973dab94e1dfa8feb80d9cb8b5e7000b5ea09f1))
+
 ## [1.5.0](https://github.com/srt4rulez/github-profiles/compare/v1.4.0...v1.5.0) (2022-03-06)
 
 
