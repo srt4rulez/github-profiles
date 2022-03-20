@@ -6,7 +6,11 @@
         ":enableVulnerabilityAlertsWithLabel(security)",
         ":label(dependencies)",
         ":semanticCommits",
-        ":semanticCommitTypeAll(chore)"
+        ":semanticCommitTypeAll(chore)",
+        ":automergePr",
+        ":automergeLinters",
+        ":automergeTesters",
+        ":automergeTypes"
     ],
     "rangeStrategy": "update-lockfile"
 }
