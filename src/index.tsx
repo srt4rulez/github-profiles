@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from 'src/App';
 import {
     ApolloClient,
@@ -17,7 +17,12 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-ReactDOM.render(
+const container = document.getElementById('root');
+
+// eslint-disable-next-line
+const root = createRoot(container!);
+
+root.render(
     <React.StrictMode>
         <ApolloProvider
             client={client}
@@ -38,6 +43,5 @@ ReactDOM.render(
             </ThemeProvider>
 
         </ApolloProvider>
-    </React.StrictMode>,
-    document.getElementById('root')
+    </React.StrictMode>
 );
